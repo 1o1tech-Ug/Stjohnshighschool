@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St John's High School</title>  <!-- Font Awesome for icons -->  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />  
+  <link rel="stylesheet" href="static/news.css" />  
+  <link rel="stylesheet" href="static/animations.css" />  
+  </head>
+<body><header>
+  <!-- Background images -->
+  <div class="bg-slider">
+    <div class="bg-slide" style="background-image: url('static/school1.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('static/school2.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('static/school3.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('static/school4.jpg');"></div>
+  </div>  <!-- Navigation --> 
+  <nav>
+    <button class="menu-btn"><i class="fa-solid fa-bars"></i> Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Homepage</a></li>
+      <li><a href="academics.html"><i class="fa-solid fa-book"></i> Academics</a></li>
+      <li><a href="facilities.html"><i class="fa-solid fa-building"></i> Facilities</a></li>
+      <li><a href="news.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+      <li><a href="gallery.html"><i class="fa-solid fa-image"></i> Gallery</a></li>
+      <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Us</a></li>
+    </ul>
+  </nav>  <!-- Main header content -->  <div class="header-content">
+    <img src="static/logo1.png" alt="St John's High School Logo" class="logo" /><p class="tagline">
+  News & Events
+</p>
+
+<div class="cta">
+  <a href="contact.html">Apply Now</a>
+</div>
+  </div>
+</header>
+  
+  
+     <a href="news.html" class="home-float" title="Back to Home">
+  <i class="fas fa-home"></i>
+</a>
+  
+  <section class="news-events" id="news">
+  <div class="news-header">
+    <h2>News & Events</h2>
+    <p>
+      Keep up with all news and events occurring in 
+      <span>St John’s High School</span>
+    </p>
+  </div>
+
+  <!-- Hero Image -->
+  <div class="news-hero">
+    <img src="static/sportsday.png" alt="Students during a school event">
+  </div>
+
+  <!-- News Grid -->
+  <div class="news-container" id="newsContainer">
+    <!-- News cards injected from Supabase -->
+  </div>
+</section>
+  
+  <section class="news-poem">
+  <article class="poem-card">
+    <header class="poem-header">
+      <span class="poem-tag">Featured Poem</span>
+      <h2 class="poem-title">A New Term Begins</h2>
+    </header>
+
+    <div class="poem-body">
+      <p>
+        The gates swing wide with morning light,<br>
+        Shoes echo hope on dusty ground,<br>
+        Young minds awake to dreams once more,<br>
+        Where books and courage both abound.
+      </p>
+
+      <p>
+        Chalk meets board, ideas take flight,<br>
+        Questions bloom in eager eyes,<br>
+        Each lesson plants a silent seed,<br>
+        For futures yet to touch the skies.
+      </p>
+
+      <p>
+        In halls of learning, hearts are shaped,<br>
+        By discipline, by truth, by care,<br>
+        Today we walk the path of growth,<br>
+        Tomorrow’s leaders rising there.
+      </p>
+    </div>
+
+    <footer class="poem-footer">
+      <span class="poem-author">
+        <i class="fa-solid fa-feather"></i>
+        By Katushabe Arthur - S.6 Arts
+      </span>
+    </footer>
+  </article>
+</section>
+  
+  
+  <footer class="footer">
+  <div class="footer-container animate-slide">
+    <!-- School Info -->
+    <div class="footer-section">
+      <h3>ST JOHN’S HIGH SCHOOL – KAZO</h3>
+      <p>MIXED DAY AND BOARDING</p>
+      <p>P.O. BOX 1316, KAMPALA, UGANDA</p>
+    </div>
+
+    <!-- Get In Touch -->
+    <div class="footer-section">
+      <h4>Get In Touch</h4>
+      <p><i class="fas fa-envelope"></i> stjohnshighschool93@gmail.com</p>
+      <p><i class="fas fa-phone"></i> +256 703 879 441</p>
+      <p><i class="fas fa-phone"></i> +256 752 974 005</p>
+      <p><i class="fas fa-phone"></i> +256 774 391 272</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><i class="fas fa-book"></i> <a href="academics.html">Academics</a></li>
+        <li><i class="fas fa-newspaper"></i> <a href="news.html">News & Events</a></li>
+        <li><i class="fas fa-image"></i> <a href="galley.html">Gallery</a></li>
+        <li><i class="fas fa-envelope-open-text"></i> <a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Social Media -->
+  <div class="footer-socials">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
+  </div>
+
+  <!-- Bottom Footer -->
+  <div class="footer-bottom">
+    <p>
+      © 2026 St John’s High School. All rights reserved.<br>
+      Developed by <span>1O1 Tech Ug</span>
+    </p>
+  </div>
+</footer>
+<script src="scripts/news.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="scripts/animations.js"></script>
+  
+</body>
+</html>
