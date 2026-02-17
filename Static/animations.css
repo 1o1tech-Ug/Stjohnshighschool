@@ -1,0 +1,77 @@
+/* ================================
+   BASE ANIMATION
+================================ */
+.animate {
+  opacity: 0;
+  transition: transform 0.8s ease-out, opacity 0.8s ease-out;
+  will-change: transform, opacity;
+}
+
+.animate.show {
+  opacity: 1;
+  transform: translate(0, 0) scale(1) rotate(0);
+}
+
+/* ================================
+   DIRECTION ANIMATIONS
+================================ */
+
+/* From Up */
+.from-up {
+  transform: translateY(50px);
+}
+
+/* From Down */
+.from-down {
+  transform: translateY(-50px);
+}
+
+/* From Left */
+.from-left {
+  transform: translateX(-60px);
+}
+
+/* From Right */
+.from-right {
+  transform: translateX(60px);
+}
+
+/* ================================
+   EXTRA EFFECTS
+================================ */
+
+/* Scale In */
+.scale-in {
+  transform: scale(0.9);
+}
+
+/* Rotate + Slide */
+.rotate-left {
+  transform: translateX(-50px) rotate(-5deg);
+}
+
+.rotate-right {
+  transform: translateX(50px) rotate(5deg);
+}
+
+/* ================================
+   SPEED MODIFIERS
+================================ */
+
+.fast {
+  transition-duration: 0.4s;
+}
+
+.slow {
+  transition-duration: 1.2s;
+}
+
+/* ================================
+   DELAY MODIFIERS
+================================ */
+
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
+.delay-5 { transition-delay: 0.5s; }
