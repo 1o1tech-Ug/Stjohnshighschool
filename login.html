@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+body{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:#f1f5f9;
+  font-family:'Segoe UI',sans-serif;
+}
+
+.login-box{
+  background:white;
+  padding:40px;
+  border-radius:16px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  width:300px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  background:#2563eb;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+button:hover{
+  background:#1d4ed8;
+}
+</style>
+</head>
+
+<body>
+
+<div class="login-box">
+  <h2 style="margin-bottom:20px;">Admin Login</h2>
+
+  <input type="email" id="email" placeholder="Email">
+  <input type="password" id="password" placeholder="Password">
+
+  <button onclick="login()">Login</button>
+
+  <p id="error" style="color:red; margin-top:10px;"></p>
+</div>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  "https://hjbhrwsxsxngdilyxdnv.supabase.co",
+  "sb_publishable_-jaTVdrK5ohi1d0Zt5J-Qg_Le--BMFf"
+);
+
+async function login(){
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  const { error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if(error){
+    document.getElementById("error").innerText = error.message;
+  } else {
+    window.location.href = "school_admin.html";
+  }
+}
+</script>
+
+</body>
+</html>

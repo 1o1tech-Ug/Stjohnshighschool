@@ -1,0 +1,172 @@
+<!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>St John's High School</title>  <!-- Font Awesome for icons -->  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />  
+  <link rel="stylesheet" href="static/gallery.css" />  
+  <link rel="stylesheet" href="static/animations.css" />  
+  </head>
+<body>
+  <header>
+  <!-- Background images -->
+  <div class="bg-slider">
+    <div class="bg-slide" style="background-image: url('static/school1.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('static/school2.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('static/school3.jpg');"></div>
+    <div class="bg-slide" style="background-image: url('static/school4.jpg');"></div>
+  </div>  <!-- Navigation --> 
+  <nav>
+    <button class="menu-btn"><i class="fa-solid fa-bars"></i> Menu</button>
+    <ul class="nav-links">
+      <li><a href="index.html"><i class="fa-solid fa-house"></i> Homepage</a></li>
+      <li><a href="academics.html"><i class="fa-solid fa-book"></i> Academics</a></li>
+      <a href="admissions.html" class="admission-btn">
+  <i class="fas fa-user-graduate"></i>
+  Admission
+</a>
+      <li><a href="facilities.html"><i class="fa-solid fa-building"></i> Facilities</a></li>
+      <li><a href="news.html"><i class="fa-solid fa-newspaper"></i> News & Events</a></li>
+      <li><a href="gallery.html"><i class="fa-solid fa-image"></i> Gallery</a></li>
+      <li><a href="contact.html"><i class="fa-solid fa-envelope"></i> Contact Us</a></li>
+    </ul>
+  </nav>  <!-- Main header content -->  <div class="header-content">
+    <img src="static/logo1.png" alt="St John's High School Logo" class="logo" /><p class="tagline">
+  
+</p>
+
+<div class="cta">
+  <a href="admissions.html">Apply Now</a>
+</div>
+  </div>
+</header>
+  
+  
+<section class="gallery-preview">
+  <h2 class="section-title">Gallery</h2>
+
+  <div class="gallery-wrapper">
+    <button class="nav-btn left" onclick="moveSlide(-1)">&#10094;</button>
+
+    <div class="gallery-track" id="galleryTrack">
+      <img src="static/gallery1.jpg" alt="">
+      <img src="static/gallery2.jpg" alt="">
+      <img src="static/gallery3.jpg" alt="">
+      <img src="static/gallery4.jpg" alt="">
+      <img src="static/school3.jpg" alt="">
+    </div>
+
+    <button class="nav-btn right" onclick="moveSlide(1)">&#10095;</button>
+  </div>
+</section>
+  
+<section class="gallery-section">
+
+
+  <!-- A LEVEL -->
+  <div class="gallery-wrapper">
+    <h3>A Level</h3>
+    <div class="gallery">
+      <button id="a-prev" class="arrow">&#10094;</button>
+
+      <div class="image-container">
+        <img id="a-image">
+        <div class="caption" id="a-caption"></div>
+      </div>
+
+      <button id="a-next" class="arrow">&#10095;</button>
+    </div>
+  </div>
+
+  <!-- O LEVEL -->
+  <div class="gallery-wrapper">
+    <h3 style="color: green;">O Level</h3>
+    <div class="gallery">
+      <button id="o-prev" class="arrow">&#10094;</button>
+
+      <div class="image-container">
+        <img id="o-image">
+        <div class="caption" id="o-caption"></div>
+      </div>
+
+      <button id="o-next" class="arrow">&#10095;</button>
+    </div>
+  </div>
+</section>
+  
+  
+  <footer class="footer">
+  <div class="footer-container animate-slide">
+    <!-- School Info -->
+    <div class="footer-section">
+      <h3>ST JOHN’S HIGH SCHOOL – KAZO</h3>
+      <p>MIXED DAY AND BOARDING</p>
+      <p>P.O. BOX 1316, KAMPALA, UGANDA</p>
+    </div>
+
+    <!-- Get In Touch -->
+    <div class="footer-section">
+      <h4>Get In Touch</h4>
+      <p><i class="fas fa-envelope"></i> stjohnshighschool93@gmail.com</p>
+      <p><i class="fas fa-phone"></i> +256 703 879 441</p>
+      <p><i class="fas fa-phone"></i> +256 752 974 005</p>
+      <p><i class="fas fa-phone"></i> +256 774 391 272</p>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="footer-section">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><i class="fas fa-book"></i> <a href="academics.html">Academics</a></li>
+        <li><a href="admissions.html" class="admission-btn">
+  <i class="fas fa-user-graduate"></i>
+  Admission
+</a></li>
+        <li><i class="fas fa-newspaper"></i> <a href="news.html">News & Events</a></li>
+        <li><i class="fas fa-image"></i> <a href="gallery.html">Gallery</a></li>
+        <li><i class="fas fa-envelope-open-text"></i> <a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- Social Media -->
+  <div class="footer-socials">
+    <a href="#"><i class="fab fa-facebook-f"></i></a>
+    <a href="#"><i class="fab fa-instagram"></i></a>
+    <a href="#"><i class="fab fa-x-twitter"></i></a>
+    <a href="#"><i class="fab fa-whatsapp"></i></a>
+  </div>
+
+  <!-- Bottom Footer -->
+  <div class="footer-bottom">
+    <p>
+      © 2026 St John’s High School. All rights reserved.<br>
+      Developed by <span>1O1 Tech Ug</span>
+    </p>
+  </div>
+</footer>
+  
+  <script>
+  let currentIndex = 0;
+  const track = document.getElementById("galleryTrack");
+  const slides = document.querySelectorAll(".gallery-track img");
+
+  function moveSlide(direction) {
+    const maxIndex = slides.length - 1;
+    currentIndex += direction;
+
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex > maxIndex) currentIndex = maxIndex;
+
+    const slideWidth = slides[0].offsetWidth + 20;
+    track.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
+  }
+</script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+   <script src="scripts/gallery.js"></script>
+  <script src="scripts/index.js"></script>
+  <script src="scripts/animations.js"></script>
+  
+</body>
+</html>

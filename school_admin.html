@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>School Admin Dashboard</title>
+
+<!-- Supabase CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  /* FIXED INITIALIZATION */
+  const supabaseClient = window.supabase.createClient(
+    "https://hjbhrwsxsxngdilyxdnv.supabase.co",
+    "sb_publishable_-jaTVdrK5ohi1d0Zt5J-Qg_Le--BMFf"
+  );
+
+  async function checkAdmin() {
+    const { data: { user } } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", user.id)
+      .single();
+
+    if (!data || !data.is_admin) {
+      alert("Access denied");
+      window.location.href = "/";
+    }
+  }
+
+  checkAdmin();
+</script>
+
+<style>
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  font-family:'Segoe UI',sans-serif;
+}
+
+body{
+  display:flex;
+  background:#f1f5f9;
+  min-height:100vh;
+}
+
+.sidebar{
+  width:250px;
+  background:#0f172a;
+  color:white;
+  padding:25px;
+}
+
+.sidebar h2{
+  margin-bottom:30px;
+  font-weight:500;
+}
+
+.sidebar select{
+  width:100%;
+  padding:10px;
+  border-radius:8px;
+  border:none;
+}
+
+.main{
+  flex:1;
+  padding:30px;
+}
+
+.card{
+  background:white;
+  padding:25px;
+  border-radius:16px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.05);
+  margin-bottom:25px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:15px;
+}
+
+input, textarea{
+  padding:10px;
+  border-radius:8px;
+  border:1px solid #d1d5db;
+  width:100%;
+}
+
+textarea{
+  grid-column:span 2;
+  resize:vertical;
+}
+
+button{
+  padding:10px 16px;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+  font-weight:500;
+  transition:0.3s;
+}
+
+.btn-primary{
+  background:#2563eb;
+  color:white;
+}
+.btn-primary:hover{ background:#1d4ed8; }
+
+.btn-edit{
+  background:#f59e0b;
+  color:white;
+}
+.btn-edit:hover{ background:#d97706; }
+
+.btn-danger{
+  background:#dc2626;
+  color:white;
+}
+.btn-danger:hover{ background:#b91c1c; }
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:15px;
+}
+
+th,td{
+  padding:12px;
+  border-bottom:1px solid #e5e7eb;
+  font-size:14px;
+}
+
+th{
+  background:#f8fafc;
+  font-weight:600;
+}
+
+tr:hover{
+  background:#f1f5f9;
+}
+
+.log-box{
+  background:#0f172a;
+  color:#22c55e;
+  padding:12px;
+  border-radius:8px;
+  max-height:150px;
+  overflow-y:auto;
+  font-size:13px;
+}
+
+@media(max-width:900px){
+  body{ flex-direction:column; }
+  .sidebar{ width:100%; }
+  .form-grid{ grid-template-columns:1fr; }
+  textarea{ grid-column:span 1; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+  <h2>Admin Panel</h2>
+  <select id="tableSelector">
+    <option value="admissions">Admissions</option>
+    <option value="gallery">Gallery</option>
+    <option value="news">News</option>
+    <option value="academics">Academics</option>
+  </select>
+</div>
+
+<div class="main">
+
+  <div class="card" id="insertCard">
+    <h3 style="margin-bottom:15px;">Insert Record</h3>
+
+    <div class="form-grid">
+      <input type="text" id="title" placeholder="Title">
+      <input type="file" id="image" accept="image/*">
+      <input type="text" id="author" placeholder="Author (News Only)" style="display:none;">
+      <textarea id="body" placeholder="Body"></textarea>
+    </div>
+
+    <br>
+    <button class="btn-primary" onclick="insertRow()">Insert</button>
+  </div>
+
+  <div class="card">
+    <h3>Table Data</h3>
+    <div id="tableData"></div>
+  </div>
+
+  <div class="card">
+    <h3>System Logs</h3>
+    <div class="log-box" id="logs"></div>
+  </div>
+
+</div>
+
+<script>
+const SUPABASE_URL = "https://hjbhrwsxsxngdilyxdnv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_-jaTVdrK5ohi1d0Zt5J-Qg_Le--BMFf";
+
+let currentTable = "admissions";
+const logs = document.getElementById("logs");
+
+function log(message, type="success"){
+  const color = type === "error" ? "#ef4444" : "#22c55e";
+  logs.innerHTML += `<div style="color:${color};">
+  [${new Date().toLocaleTimeString()}] ${message}</div>`;
+  logs.scrollTop = logs.scrollHeight;
+}
+
+document.getElementById("tableSelector").addEventListener("change",(e)=>{
+  currentTable = e.target.value;
+  configureUI();
+  fetchTable();
+  log("Switched to table: " + currentTable);
+});
+
+configureUI();
+fetchTable();
+
+function configureUI(){
+  const insertCard = document.getElementById("insertCard");
+  const authorField = document.getElementById("author");
+
+  insertCard.style.display = currentTable === "admissions" ? "none" : "block";
+  authorField.style.display = currentTable === "news" ? "block" : "none";
+}
+
+async function fetchTable(){
+  log("Fetching records...");
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${currentTable}?select=*`,{
+    headers:{
+      apikey:SUPABASE_KEY,
+      Authorization:`Bearer ${SUPABASE_KEY}`
+    }
+  });
+
+  const data = await res.json();
+  renderTable(data);
+  log("Records loaded successfully.");
+}
+
+function renderTable(data){
+  if(data.length === 0){
+    document.getElementById("tableData").innerHTML = "No records.";
+    return;
+  }
+
+  let html = "<table><tr>";
+  Object.keys(data[0]).forEach(col=>{
+    html += `<th>${col}</th>`;
+  });
+  html += "<th>Actions</th></tr>";
+
+  data.forEach(row=>{
+    html += "<tr>";
+    Object.keys(row).forEach(col=>{
+      html += `<td contenteditable="${currentTable!=='admissions'}"
+                data-id="${row.id}"
+                data-column="${col}">
+                ${row[col] ?? ""}
+              </td>`;
+    });
+
+    html += `<td>
+      ${currentTable!=='admissions'
+      ? `<button class="btn-edit" onclick="updateRow(${row.id})">Save</button>`
+      : ""}
+      <button class="btn-danger" onclick="deleteRow(${row.id})">Delete</button>
+    </td></tr>`;
+  });
+
+  html += "</table>";
+  document.getElementById("tableData").innerHTML = html;
+}
+</script>
+
+</body>
+</html>

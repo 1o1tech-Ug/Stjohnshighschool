@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online Admission</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: #002147;
+      color: white;
+    }
+
+    .header img {
+      width: 90px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 8px;
+      margin: 5px 0 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    button {
+      background: #002147;
+      color: white;
+      padding: 12px;
+      border: none;
+      width: 100%;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #014080;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .success {
+      color: green;
+      text-align: center;
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="header">
+  <img src="static/logo.png">
+  <h1>ST JOHN'S HIGH SCHOOL-KAWEMPE</h1>
+  <h2>MIXED DAY & BOARDING</h2>
+  <p>P.O Box 1316, Kampala | Tel: 0702224069</p>
+  <p><strong>""Determined To Excel""
+  </strong></p>
+</div>
+
+<div class="container">
+
+<h2>Admission Form</h2>
+
+<form id="admissionForm">
+
+<label>Level Applying For</label>
+<select id="level">
+  <option value="O-Level">O-Level</option>
+  <option value="A-Level">A-Level</option>
+</select>
+
+<label>Student Name</label>
+<input type="text" id="student_name" required>
+
+<label>Other Name</label>
+<input type="text" id="other_name">
+
+<label>Date of Birth</label>
+<input type="date" id="dob" required>
+
+<label>Age</label>
+<input type="number" id="age">
+
+<label>Sex</label>
+<select id="sex">
+  <option>Male</option>
+  <option>Female</option>
+</select>
+
+<label>Date of Application</label>
+<input type="date" id="application_date" required>
+
+<label>Religion</label>
+<input type="text" id="religion">
+
+<label>Nationality</label>
+<input type="text" id="nationality">
+
+<h3>Parent / Guardian</h3>
+<input type="text" id="parent_name" placeholder="Name">
+<input type="text" id="parent_occupation" placeholder="Occupation">
+<input type="text" id="parent_tel" placeholder="Tel">
+
+<h3>Next of Kin</h3>
+<input type="text" id="nok_name" placeholder="Name">
+<input type="text" id="nok_occupation" placeholder="Occupation">
+<input type="text" id="nok_tel" placeholder="Tel">
+
+<label>Residence</label>
+<input type="text" id="residence">
+
+<h3>PLE Scores</h3>
+<table>
+<tr><th>English</th><th>Math</th><th>SST</th><th>Science</th><th>Aggregate</th></tr>
+<tr>
+<td><input type="text" id="ple_eng"></td>
+<td><input type="text" id="ple_math"></td>
+<td><input type="text" id="ple_sst"></td>
+<td><input type="text" id="ple_sci"></td>
+<td><input type="text" id="ple_agg"></td>
+</tr>
+</table>
+
+<div id="uceSection" class="hidden">
+<h3>UCE Scores</h3>
+<table>
+<tr>
+<th>Eng</th><th>MTC</th><th>Bio</th><th>Chem</th><th>Phy</th>
+<th>History</th><th>Geo</th><th>Kisw</th><th>Luganda</th>
+<th>CRE/IRE</th><th>Comp</th><th>Agric</th>
+<th>Entre</th><th>P.E</th><th>Lit</th><th>T.D</th>
+</tr>
+<tr>
+<td><input id="uce_eng"></td>
+<td><input id="uce_mtc"></td>
+<td><input id="uce_bio"></td>
+<td><input id="uce_chem"></td>
+<td><input id="uce_phy"></td>
+<td><input id="uce_hist"></td>
+<td><input id="uce_geo"></td>
+<td><input id="uce_kisw"></td>
+<td><input id="uce_lug"></td>
+<td><input id="uce_cre"></td>
+<td><input id="uce_comp"></td>
+<td><input id="uce_agric"></td>
+<td><input id="uce_ent"></td>
+<td><input id="uce_pe"></td>
+<td><input id="uce_lit"></td>
+<td><input id="uce_td"></td>
+</tr>
+</table>
+</div>
+
+<button type="submit">Submit Application</button>
+
+<p id="message"></p>
+
+</form>
+</div>
+
+  <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+  const levelSelect = document.getElementById("level");
+  const uceSection = document.getElementById("uceSection");
+
+  function toggleUCE() {
+    if (levelSelect.value === "A-Level") {
+      uceSection.classList.remove("hidden");
+    } else {
+      uceSection.classList.add("hidden");
+    }
+  }
+
+  // Run once on page load
+  toggleUCE();
+
+  // Run whenever selection changes
+  levelSelect.addEventListener("change", toggleUCE);
+
+});
+</script>
+<script>
+
+const SUPABASE_URL = "https://hjbhrwsxsxngdilyxdnv.supabase.co";
+const SUPABASE_KEY = "sb_publishable_-jaTVdrK5ohi1d0Zt5J-Qg_Le--BMFf";
+
+document.getElementById("admissionForm")
+  .addEventListener("submit", submitAdmission);
+
+async function submitAdmission(e) {
+
+  e.preventDefault();
+
+  const status = document.getElementById("message");
+  status.style.color = "black";
+  status.textContent = "Submitting application...";
+
+  const level = document.getElementById("level").value;
+  const studentName = document.getElementById("student_name").value.trim();
+  const parentTel = document.getElementById("parent_tel").value.trim();
+
+  // -------------------------
+  // 🔒 Spam Protection (2 min cooldown)
+  // -------------------------
+  const now = Date.now();
+  const lastSubmission = localStorage.getItem("lastAdmission");
+
+  if (lastSubmission && now - lastSubmission < 120000) {
+    status.style.color = "red";
+    status.textContent = "Please wait before submitting again.";
+    return;
+  }
+
+  // -------------------------
+  // 🧠 Prepare PLE JSON
+  // -------------------------
+  const ple = {
+    english: ple_eng.value,
+    math: ple_math.value,
+    sst: ple_sst.value,
+    science: ple_sci.value,
+    aggregate: ple_agg.value
+  };
+
+  // -------------------------
+  // 🧠 Prepare UCE JSON (Only if A-Level)
+  // -------------------------
+  let uce = null;
+
+  if (level === "A-Level") {
+    uce = {
+      eng: uce_eng.value,
+      mtc: uce_mtc.value,
+      bio: uce_bio.value,
+      chem: uce_chem.value,
+      phy: uce_phy.value,
+      history: uce_hist.value,
+      geo: uce_geo.value
+    };
+  }
+
+  try {
+
+    // -------------------------
+    // 🚫 Duplicate Check
+    // -------------------------
+    const checkResponse = await fetch(
+      `${SUPABASE_URL}/rest/v1/admissions?student_name=eq.${studentName}&parent_tel=eq.${parentTel}`,
+      {
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`
+        }
+      }
+    );
+
+    const existing = await checkResponse.json();
+
+    if (existing.length > 0) {
+      status.style.color = "red";
+      status.textContent = "This student has already applied.";
+      return;
+    }
+
+    // -------------------------
+    // 🌍 Get User IP (simple method)
+    // -------------------------
+    const ipData = await fetch("https://api.ipify.org?format=json");
+    const ipJson = await ipData.json();
+
+    // -------------------------
+    // 📤 Insert Into Database
+    // -------------------------
+    const insertResponse = await fetch(
+      `${SUPABASE_URL}/rest/v1/admissions`,
+      {
+        method: "POST",
+        headers: {
+          apikey: SUPABASE_KEY,
+          Authorization: `Bearer ${SUPABASE_KEY}`,
+          "Content-Type": "application/json",
+          Prefer: "return=representation"
+        },
+        body: JSON.stringify({
+          level_applying: level,
+          student_name: studentName,
+          other_name: other_name.value,
+          date_of_birth: dob.value,
+          age: age.value,
+          sex: sex.value,
+          date_of_application: application_date.value,
+          religion: religion.value,
+          nationality: nationality.value,
+          parent_name: parent_name.value,
+          parent_occupation: parent_occupation.value,
+          parent_tel: parentTel,
+          next_of_kin: nok_name.value,
+          nok_occupation: nok_occupation.value,
+          nok_tel: nok_tel.value,
+          residence: residence.value,
+          ple_scores: ple,
+          uce_scores: uce,
+          ip_address: ipJson.ip
+        })
+      }
+    );
+
+    if (!insertResponse.ok) {
+      const errorText = await insertResponse.text();
+      status.style.color = "red";
+      status.textContent = "Database Error: " + errorText;
+      return;
+    }
+
+    // -------------------------
+    // ✅ Success
+    // -------------------------
+    status.style.color = "green";
+    status.textContent = "Application submitted successfully!";
+
+    localStorage.setItem("lastAdmission", now);
+    document.getElementById("admissionForm").reset();
+
+  } catch (error) {
+    status.style.color = "red";
+    status.textContent = "Unexpected Error: " + error.message;
+  }
+
+}
+
+</script>
+
+</body>
+</html>
